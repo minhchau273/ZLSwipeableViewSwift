@@ -46,6 +46,11 @@ open class ZLSwipeableView: UIView {
     // Rewinding
     open var history = [UIView]()
     open var numberOfHistoryItem = UInt(10)
+    open var animationDegree = CGFloat(1) {
+        didSet {
+            animateView = ZLSwipeableView.defaultAnimateViewHandler(degree: animationDegree)
+        }
+    }
 
     // MARK: Customizable behavior
     open var animateView = ZLSwipeableView.defaultAnimateViewHandler()
@@ -263,7 +268,7 @@ open class ZLSwipeableView: UIView {
 // MARK: - Default behaviors
 extension ZLSwipeableView {
 
-    static func defaultAnimateViewHandler() -> AnimateViewHandler {
+    static func defaultAnimateViewHandler(degree: CGFloat = 1) -> AnimateViewHandler {
         func toRadian(_ degree: CGFloat) -> CGFloat {
             return degree * CGFloat(Double.pi / 180)
         }
@@ -280,7 +285,6 @@ extension ZLSwipeableView {
         }
 
         return { (view: UIView, index: Int, views: [UIView], swipeableView: ZLSwipeableView) in
-            let degree = CGFloat(1)
             let duration = 0.4
             let offset = CGPoint(x: 0, y: swipeableView.bounds.height * 0.3)
             switch index {
